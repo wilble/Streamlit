@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # In[1]:
-
+pip install plotly.graph_objects
 
 import streamlit as st
 import pandas as pd
