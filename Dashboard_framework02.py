@@ -1,57 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+
 
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-
-
-from sqlalchemy import create_engine
-
-
-# In[2]:
-
-
-engine = create_engine('mssql://DESKTOP-1PS8E8C/AdventureWorks2022?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server')
-connection = engine.connect()
-
-
-# In[3]:
-
-
-# Write about the why and not the how (the how is in the code)
-query_1 = """
-SELECT
-    SOD.SalesOrderID,
-    SOH.[Status],
-    SOH.ShipDate,
-    FORMAT(SOH.ShipDate, 'yyyy-MM') AS SalesMonthYear,
-	SOH.OnlineOrderFlag,
-	SOH.SalesPersonID,
-    SOH.TerritoryID,
-	ST.[Group],
-	SOH.TotalDue,
-    SOH.SubTotal,
-    SUM(SOD.OrderQty * ISNULL(PCH.StandardCost, P.StandardCost)) AS COGS,
-    SUM(SOD.LineTotal) - SUM(SOD.OrderQty * ISNULL(PCH.StandardCost, P.StandardCost)) AS Margin,
-    YEAR(SOH.ShipDate) AS SalesYear,
-    MONTH(SOH.ShipDate) AS SalesMonth
-FROM Sales.SalesOrderHeader AS SOH
-INNER JOIN Sales.SalesOrderDetail AS SOD ON SOH.SalesOrderID = SOD.SalesOrderID
-INNER JOIN Production.Product AS P ON p.ProductID = SOD.ProductID
-LEFT JOIN Sales.SalesTerritory AS ST on st.TerritoryID = SOH.TerritoryID
-LEFT JOIN Production.ProductCostHistory AS PCH on PCH.ProductID = P.ProductID and (PCH.StartDate <= SOH.ShipDate and ISNULL(PCH.enddate,'9999-12-31') > SOH.shipdate)
-WHERE SOH.[Status] = 5
-GROUP BY SOD.SalesOrderID, SOH.[Status], SOH.ShipDate, SOH.OnlineOrderFlag, SOH.SalesPersonID, SOH.TotalDue, SOH.SubTotal, YEAR(SOH.ShipDate), MONTH(SOH.ShipDate), SOH.TerritoryID, ST.[Group]
-ORDER BY SalesYear;
-"""
-pd.read_sql(query_1, con=connection)
-
-
-# In[ ]:
-
 
 st.set_page_config(page_title="AdventureWorks Dashboard", 
                    page_icon="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Map-circle-blue.svg/1024px-Map-circle-blue.svg.png",
@@ -68,10 +22,10 @@ footer = st.container()
 # In[4]:
 
 
-df1 = pd.read_sql(query_1, con=connection)
+df1 = pd.read_csv(https://github.com/wilble/Streamlit/blob/main/Data/output.csv)
 
 
-# In[ ]:
+
 
 
 # CSS styles
