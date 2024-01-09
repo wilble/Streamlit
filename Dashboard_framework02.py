@@ -22,7 +22,7 @@ footer = st.container()
 # In[4]:
 
 
-df1 = pd.read_csv('https://github.com/wilble/Streamlit/blob/main/Data/output.csv')
+df1 = pd.read_csv('https://raw.githubusercontent.com/wilble/Streamlit/main/Data/output.csv')
 
 
 
