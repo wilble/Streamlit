@@ -238,7 +238,7 @@ with chartRow:
     
     st.plotly_chart(fig_linechart)
 
-with confidenceintervalRow
+with confidenceintervalRow:
     st.markdown('<div></div>', unsafe_allow_html=True)
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
