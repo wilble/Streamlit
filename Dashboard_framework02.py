@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 st.set_page_config(page_title="AdventureWorks Dashboard", 
-                   page_icon="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Map-circle-blue.svg/1024px-Map-circle-blue.svg.png",
+                   page_icon= "\U0001F6B2",
                    initial_sidebar_state="expanded",
                    )
 
@@ -16,6 +16,7 @@ hero = st.container()
 topRow = st.container()
 midRow = st.container()
 chartRow = st.container()
+confidenceintervalRow = st.container()
 footer = st.container()
 
 
@@ -138,7 +139,7 @@ with st.sidebar:
 with hero:
     # the logo
     st.markdown("""<div style="position:relative; margin: auto; text-align: center;">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Map-circle-blue.svg/1024px-Map-circle-blue.svg.png" width=56>
+              <img src="\U0001F6B2" width=56>
             </div>""", unsafe_allow_html=True)
 
     # the header
@@ -237,6 +238,34 @@ with chartRow:
     
     st.plotly_chart(fig_linechart)
 
+with confidenceintervalRow
+    st.markdown('<div></div>', unsafe_allow_html=True)
+
+df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
+
+# Create traces for each category
+traces = []
+for category, data in df1.groupby('OnlineOrderFlag'):
+    trace = go.Bar(
+        x=[category],
+        y=[data['Proportion'].mean()],
+        error_y=dict(type='data', array=data['Proportion'].std()),
+        name=category
+    )
+    traces.append(trace)
+
+# Create layout
+layout = go.Layout(
+    title="Proportions with Confidence Intervals",
+    xaxis=dict(title='Online Order Flag'),
+    yaxis=dict(title='Proportion (%)')
+)
+
+# Create figure
+fig = go.Figure(data=traces, layout=layout)
+
+# Show the plot
+st.plotly_chart(fig)
 
 with footer:
     st.markdown("---")
