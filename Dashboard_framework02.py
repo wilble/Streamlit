@@ -7,6 +7,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
+from scipy import stats
 
 st.set_page_config(page_title="AdventureWorks Dashboard", 
                    page_icon= "\U0001F6B2",
@@ -247,10 +248,17 @@ with confidenceintervalRow:
     # Create traces for each category
     traces = []
     for category, data in df1.groupby('OnlineOrderFlag'):
+        # Calculate confidence interval for the mean
+        mean = data['Proportion'].mean()
+        std_error = data['Proportion'].std() / (data['Proportion'].count() ** 0.5)
+        
+        # Calculate confidence interval bounds
+        confidence_interval = stats.t.interval(0.95, len(data['Proportion']) - 1, loc=mean, scale=std_error)
+
         trace = go.Bar(
             x=[category],
-            y=[data['Proportion'].mean()],
-            error_y=dict(type='data', array=data['Proportion'].std()),
+            y=[mean],
+            error_y=dict(type='data', array=[[mean - confidence_interval[0], confidence_interval[1] - mean]]),
             name=category
         )
         traces.append(trace)
