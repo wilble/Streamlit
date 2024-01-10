@@ -247,7 +247,7 @@ with confidenceintervalRow:
         name= 'Total Sales',
         x=['Total Sales'],
         y=[df1['Proportion'].mean()],
-        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1['Proportion']) - 1, loc=df1['Proportion'].mean(), scale=stats.sem(df1['Proportion']))])
+        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1['Proportion']) - 1, loc=df1['Proportion'].mean(), scale=stats.sem(df1['Proportion']))[1] - df1['Proportion'].mean()])
     ))
 
     # Online sales
@@ -255,7 +255,7 @@ with confidenceintervalRow:
         name= 'B2B Sales', 
         x=['B2B Sales'],
         y=[df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()],
-        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))])
+        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()])
     ))
 
     # Not online sales
@@ -263,7 +263,7 @@ with confidenceintervalRow:
         name= 'B2C Sales',
         x=['B2C Sales'],
         y=[df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean()],
-        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == True]['Proportion']))])
+        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == True]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean()])
     ))
 
     # Update layout
