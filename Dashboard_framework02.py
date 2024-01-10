@@ -245,7 +245,7 @@ with confidenceintervalRow:
 
     fig.add_trace(go.Bar(
         name= 'Total Sales',
-        x=*Total Sales',
+        x='Total Sales',
         y=[df1['Proportion'].mean()],
         error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1['Proportion']) - 1, loc=df1['Proportion'].mean(), scale=df1['Proportion'].std())])
     ))
