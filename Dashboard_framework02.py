@@ -101,7 +101,7 @@ with st.sidebar:
         </style>
     ''',unsafe_allow_html=True)
     st.title("AdventureWorks")
-    st.markdown("This visualization gives a quick glance at a few KPI metrics from the AdventureWorks sample SQL Database. You can choose which year to inspect or the business as a whole and also review a single month in the line graph. B2B sales and B2C (Online sales) are broken out and displayed. At the bottom there's a confidence interval regarding B2B-gross margin % and a few impressions from that visualisation.")
+    st.markdown("This visualization gives a quick glance at a few KPI metrics from the AdventureWorks sample SQL Database. You can choose which year to inspect or the business as a whole and also review a single month in the line graph. B2B sales and B2C (Online sales) are broken out and displayed. At the bottom there's a confidence interval regarding B2B-gross margin % and a few impressions from that visualization.")
     
     # The Selectbox
     Sales_Year = df1['SalesYear'].unique()
