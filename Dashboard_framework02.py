@@ -241,31 +241,31 @@ with chartRow:
 with confidenceintervalRow
     st.markdown('<div></div>', unsafe_allow_html=True)
 
-df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
+    df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
-# Create traces for each category
-traces = []
-for category, data in df1.groupby('OnlineOrderFlag'):
-    trace = go.Bar(
-        x=[category],
-        y=[data['Proportion'].mean()],
-        error_y=dict(type='data', array=data['Proportion'].std()),
-        name=category
+    # Create traces for each category
+    traces = []
+    for category, data in df1.groupby('OnlineOrderFlag'):
+        trace = go.Bar(
+            x=[category],
+            y=[data['Proportion'].mean()],
+            error_y=dict(type='data', array=data['Proportion'].std()),
+            name=category
+        )
+        traces.append(trace)
+
+    # Create layout
+    layout = go.Layout(
+        title="Proportions with Confidence Intervals",
+        xaxis=dict(title='Online Order Flag'),
+        yaxis=dict(title='Proportion (%)')
     )
-    traces.append(trace)
 
-# Create layout
-layout = go.Layout(
-    title="Proportions with Confidence Intervals",
-    xaxis=dict(title='Online Order Flag'),
-    yaxis=dict(title='Proportion (%)')
-)
+    # Create figure
+    fig = go.Figure(data=traces, layout=layout)
 
-# Create figure
-fig = go.Figure(data=traces, layout=layout)
-
-# Show the plot
-st.plotly_chart(fig)
+    # Show the plot
+    st.plotly_chart(fig)
 
 with footer:
     st.markdown("---")
