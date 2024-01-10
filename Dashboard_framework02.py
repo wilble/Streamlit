@@ -132,7 +132,7 @@ with st.sidebar:
 
 with hero:
     st.markdown("""<div style="position:relative; margin: auto; text-align: center;">
-              <img src="\U0001F6B2" width=56>
+              \U0001F6B2
             </div>""", unsafe_allow_html=True)
     st.markdown('<h1 style="text-align:center; position:relative; top:40%;">AdventureWorks Sales</h1>', unsafe_allow_html=True)
 
