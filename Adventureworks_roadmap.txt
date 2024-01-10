@@ -1,0 +1,71 @@
+Roadmap AdventureWorks22
+
+Datadriven presentation av företaget (Dashboard)
+
+KPI:er
+
+Finansiella:
+
+(Räkenskapsår, YTD, YoY)
+Omsättning 
+Vinstmarginal 
+Gross Margin 
+Cash Flow
+Lageromsättning
+AR/AP - dagar
+Geografisk kunddata (heatmap på karta?)
+
+Personal:
+Omsättning/anställda
+Personalomsättning, total arbetsstyrka
+Business units
+
+Produkt:
+Produktsegment (omsättning, marginaler)
+Kvalitetsproblem (produktionsställen)
+
+Baserat på deskriptiv dashboard:
+
+Jämförelse av produktsegment baserat på geografiska indelningar
+Är det någon grupp av produkter som har högre marginal i produktmixen?
+- Var säljs dem? Har vi varit historiskt starka där? Var kan vi se trender i datan?
+Konfidensintervall på cashflow utifrån produktion/sälj.
+Säljprognos? (Baserat på prophet/python?)
+
+--------
+
+SQL Datakällor:
+
+- Dubbelkolla att allt är omräknat i dollar, undersök Sales.CurrencyRate
+
+Sales:
+OrderID (SalesOrderID, SalesOrderDetail ID (PK), ProductID, LineTotal)
+OrderHeader (SalesOrderID (PK), ShipDate, Status, SalesOrderFlag, SalesOrderNumber, PurchaseOrderNumber, CustomerID, TerritoryID, [Sub Total], Freight)
+(BEHÖVS OM DRILL DOWN PÅ SALES REPS) CustomerID (CustomerID (PK), StoreID, TerritoryID, AccountNumber)
+
+Production:
+
+Product (UNDERSÖK NULLVÄRDEN) (ProductID (PK), ProductNumber, SafetyStockLevel (ANGER VÅRT KPI PÅ LAGERTOTAL UNDERSÖK RIMLIGHETEN), ReorderPoint, StandardCost, ListPrice, ProductSubcategoryID, ProductModelD, SellStartDate, SellEndDate, DiscontinuedDate)
+ProductCategoryID (ProductCategoryID (PK), Name)
+ProductCostHistory (ProductID (PK), StartDate, EndDate)
+ProductInventory (ProductID + LocationID (PK), Quantity)
+ScrapReason (ScrapReasonID (PK) Name)
+TransactionHistory (TransactionID (PK), ProductID, ReferenceOrderID, TransactionDate, TransactionType, Quantity, ActualCost)
+TransactionHistoryArchive (TransactionID (PK), ProductID, ReferenceOrderID, ReferenceOrderLineID, TransactionDate, TransactionType, Quantity, ActualCost)
+WorkOrder (WorkOrderID, ProductID, OrderQty, StockedQty, ScrappedQty, DueDate, ScrapReasonID)
+
+Purchasing:
+
+ProductVendor (ProductID + BusinessEntityID (PK), AverageLeadTime, StandardPrice, LastReceiptCost, LastReceiptDate)
+!!!!! Allt i denna tabell ser dyrare ut än StandardPrice - Undersök !!!!!
+PurchaseOrderDetail (PurchaseOrderID + PurchaseOrderDetailID (PK), DueDate, OrderQty, ProductID, Unitprice, LineTotal, ReceivedQty, RejectedQty, StockedQty)
+!!!! Har vi en kontrollfunktion för underleverans, finns det credit notes någonstans? !!!!!
+PurchaseOrderHeader (PurchaseorderID (PK), VendorID, ShipDate, SubTotal, Freight)
+Vendor (BusinessEntityID (PK), CreditRating, PreferredVendor, ActiveFlag)
+
+HumanResources:
+
+Department (DepartmentID (PK), Name, Engineering, GroupName)
+Employee (BusinessEntityID (PK), HireDate, SalariedFlag, CurrentFlag)
+EmployeeDepartmentHistory (BusinessEntityID + StartDate + DepartmentID (PK), EndDate)
+EmployeePayHistory (BusinessentityID (PK), RateChangeDate, Rate, PayFrequency)
