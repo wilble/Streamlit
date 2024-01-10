@@ -73,6 +73,19 @@ st.markdown(
         font-size: 24px;
         font-family: serif;
     }
+    .bar-chart-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 50%;
+    }  
+    .description-box {
+        width: 50%;
+        background-color: #9370DB;
+        padding: 10px;
+        border-radius: 5px;
+    }  
     </style>
     """,
     unsafe_allow_html=True
@@ -236,7 +249,7 @@ with chartRow:
     st.plotly_chart(fig_linechart)
 
 with confidenceintervalRow:
-    st.markdown('<div></div>', unsafe_allow_html=True)
+    st.markdown('<div class="bar-chart-container"></div>', unsafe_allow_html=True)
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
@@ -264,6 +277,13 @@ with confidenceintervalRow:
     # Show the plot
     st.plotly_chart(fig)
 
+    st.markdown(
+        """
+        <div class="description-box">
+        <p>In the box to the left there is a box</p>
+        </div>
+         """, unsafe_allow_html=True
+        )
 with footer:
     st.markdown("---")
     st.markdown(
@@ -280,7 +300,7 @@ with footer:
             }
         </style>
         <p>
-            &copy; Designed by William Blennow.
+            Designed by William Blennow.
         </p>
         """, unsafe_allow_html=True
         )    
