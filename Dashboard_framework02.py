@@ -6,6 +6,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import numpy as np
 
 st.set_page_config(page_title="AdventureWorks Dashboard", 
                    page_icon= "\U0001F6B2",
