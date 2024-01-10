@@ -261,7 +261,7 @@ with confidenceintervalRow:
     # Not online sales
     fig.add_trace(go.Bar(
         name= 'B2C Sales',
-        x='B2C Sales'
+        x='B2C Sales',
         y=[df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean()],
         error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=df1[df1['OnlineOrderFlag'] == True]['Proportion'].std())])
     ))
