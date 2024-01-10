@@ -261,7 +261,7 @@ with confidenceintervalRow:
         name= 'B2B Sales', 
         x=['B2B Sales'],
         y=[df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()],
-        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()], width=2)
+        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()], width=2),
     width=3
     ))
 
