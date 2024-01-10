@@ -81,7 +81,7 @@ st.markdown(
         width: 50%;
     }  
     .description-box {
-        width: 50%;
+        width: 100%;
         background-color: #9370DB;
         padding: 10px;
         border-radius: 5px;
@@ -249,7 +249,7 @@ with chartRow:
     st.plotly_chart(fig_linechart)
 
 with confidenceintervalRow:
-    st.markdown('<div class="bar-chart-container"></div>', unsafe_allow_html=True)
+    st.markdown('<div></div>', unsafe_allow_html=True)
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
@@ -261,7 +261,8 @@ with confidenceintervalRow:
         name= 'B2B Sales', 
         x=['B2B Sales'],
         y=[df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()],
-        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()])
+        error_y=dict(type='data', array=[stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=stats.sem(df1[df1['OnlineOrderFlag'] == False]['Proportion']))[1] - df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()], width=2)
+    width=3
     ))
 
 
