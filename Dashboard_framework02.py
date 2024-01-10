@@ -246,21 +246,21 @@ with confidenceintervalRow:
     fig.add_trace(go.Bar(
         name= 'Total Sales', 
         x=df1['Proportion'].mean(),
-        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1['Proportion']) - 1, loc=df1['Proportion'].mean(), scale=df1['Proportion'].std()])
+        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1['Proportion']) - 1, loc=df1['Proportion'].mean(), scale=df1['Proportion'].std())])
     ))
 
     # Online sales
    fig.add_trace(go.Bar(
         name= 'B2B Sales', 
         x=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(),
-        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=df1[df1['OnlineOrderFlag'] == False]['Proportion'].std()])
+        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=df1[df1['OnlineOrderFlag'] == False]['Proportion'].std())])
     ))
 
     # Not online sales
     fig.add_trace(go.Bar(
         name= 'B2C Sales', 
         x=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(),
-        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=df1[df1['OnlineOrderFlag'] == True]['Proportion'].std()])
+        error_y=dict(type='data', array=[stats.t.interval(0,95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=df1[df1['OnlineOrderFlag'] == True]['Proportion'].std())])
     ))
 
     # Update layout
