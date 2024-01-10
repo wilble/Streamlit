@@ -154,15 +154,11 @@ with hero:
 # The Rows
 with topRow:
 
-    # Calculate the total number of invoices
+    
     total_turnover = chosen_line['SubTotal'].sum()
-
-    # Calculate the average rating and number of ratings
     total_cogs = chosen_line['COGS'].sum()
-
-    # Find the most active time for invoices
     total_gp = chosen_line['Margin'].sum()
-    # the result is 2:14 PM so I'll type it by hand for now.
+   
     st.markdown(
         """
         <div class="subheader">Top Stats</div>
@@ -182,7 +178,6 @@ with topRow:
     )
     
 with midRow:
-    # Calculate the total income, costs, and profit
     grossmargin_pct = chosen_line['Margin'].sum() / chosen_line['SubTotal'].sum()
     b2b_turnover = chosen_line[chosen_line['OnlineOrderFlag'] == False]['SubTotal'].sum()
     b2c_turnover = chosen_line[chosen_line['OnlineOrderFlag'] == True]['SubTotal'].sum()
@@ -245,51 +240,35 @@ with confidenceintervalRow:
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
-    # Calculate confidence interval for all sales
-    all_sales_mean = df1['Proportion'].mean()
-    all_sales_std_error = df1['Proportion'].std() / (df1['Proportion'].count() ** 0.5)
-    all_sales_confidence_interval = stats.t.interval(0.95, len(df1['Proportion']) - 1, loc=all_sales_mean, scale=all_sales_std_error)
-
-    # Calculate confidence interval for online sales
-    online_sales_mean = df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean()
-    online_sales_std_error = df1[df1['OnlineOrderFlag'] == True]['Proportion'].std() / (df1[df1['OnlineOrderFlag'] == True]['Proportion'].count() ** 0.5)
-    online_sales_confidence_interval = stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=online_sales_mean, scale=online_sales_std_error)
-
-    # Calculate confidence interval for not online sales
-    not_online_sales_mean = df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()
-    not_online_sales_std_error = df1[df1['OnlineOrderFlag'] == False]['Proportion'].std() / (df1[df1['OnlineOrderFlag'] == False]['Proportion'].count() ** 0.5)
-    not_online_sales_confidence_interval = stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=not_online_sales_mean, scale=not_online_sales_std_error)
-
     # Create horizontal bar chart
     fig = go.Figure()
 
-    # All sales
     fig.add_trace(go.Bar(
-        y=['All Sales'],
-        x=[all_sales_mean],
-        error_x=dict(type='data', array=[[all_sales_mean - all_sales_confidence_interval[0], all_sales_confidence_interval[1] - all_sales_mean]])
+        name= 'Total Sales', 
+        x=df1['Proportion'].mean(),
+        error_y=dict(type='data', stats.t.interval(0,95, df1['Proportion'], loc=(df1['Proportion'].mean(), scale=(df1['Proportion'].std())
     ))
 
     # Online sales
-    fig.add_trace(go.Bar(
-        y=['Online Sales'],
-        x=[online_sales_mean],
-        error_x=dict(type='data', array=[[online_sales_mean - online_sales_confidence_interval[0], online_sales_confidence_interval[1] - online_sales_mean]])
+   fig.add_trace(go.Bar(
+        name= 'B2B Sales', 
+        x=df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(),
+        error_y=dict(type='data', stats.t.interval(0,95, df1[df1['OnlineOrderFlag'] == False]['Proportion'], loc=(df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean(), scale=(df1[df1['OnlineOrderFlag'] == False]['Proportion'].std())
     ))
 
     # Not online sales
     fig.add_trace(go.Bar(
-        y=['Not Online Sales'],
-        x=[not_online_sales_mean],
-        error_x=dict(type='data', array=[[not_online_sales_mean - not_online_sales_confidence_interval[0], not_online_sales_confidence_interval[1] - not_online_sales_mean]])
+        name= 'B2C Sales', 
+        x=df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(),
+        error_y=dict(type='data', stats.t.interval(0,95, df1[df1['OnlineOrderFlag'] == True]['Proportion'], loc=(df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean(), scale=(df1[df1['OnlineOrderFlag'] == True]['Proportion'].std())
     ))
 
     # Update layout
     fig.update_layout(
-        title="Proportions with Confidence Intervals",
-        xaxis_title='Proportion (%)',
-        yaxis_title='Sales Category',
-        barmode='stack'
+        title="Gross margin % with 95% confidence intervals",
+        xaxis_title='',
+        yaxis_title='Gross margin %',
+        
     )
 
     # Show the plot
