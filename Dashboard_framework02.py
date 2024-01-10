@@ -22,17 +22,11 @@ confidenceintervalRow = st.container()
 footer = st.container()
 
 
-# In[4]:
+
 
 
 df1 = pd.read_csv('https://raw.githubusercontent.com/wilble/Streamlit/main/Data/output.csv')
 
-
-
-
-
-# CSS styles
-# Custom styling for top and down
 st.markdown(
     """
     <style>
@@ -87,11 +81,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# In[ ]:
-
-
-# Sidebar
 with st.sidebar:
     st.markdown(f'''
         <style>
@@ -112,7 +101,7 @@ with st.sidebar:
         </style>
     ''',unsafe_allow_html=True)
     st.title("AdventureWorks")
-    st.markdown("This visualization gives a quick glance at a few KPI metrics from the AdventureWorks sample SQL Database. You can choose which year to inspect or the business as a whole and also divide it into B2B sales or B2C (Online sales).")
+    st.markdown("This visualization gives a quick glance at a few KPI metrics from the AdventureWorks sample SQL Database. You can choose which year to inspect or the business as a whole and also review a single month in the line graph. B2B sales and B2C (Online sales) are broken out and displayed. At the bottom there's a confidence interval regarding B2B-gross margin % and a few impressions from that visualisation.")
     
     # The Selectbox
     Sales_Year = df1['SalesYear'].unique()
@@ -122,7 +111,6 @@ with st.sidebar:
     else:
         chosen_line = df1[df1['SalesYear'] == line]
 
-    # Customizing the select box
     st.markdown(f'''
     <style>
         .stSelectbox div div {{
@@ -142,25 +130,12 @@ with st.sidebar:
     </style>
     ''', unsafe_allow_html=True)
 
-
-# In[ ]:
-
-
-# The Hero Section
 with hero:
-    # the logo
     st.markdown("""<div style="position:relative; margin: auto; text-align: center;">
               <img src="\U0001F6B2" width=56>
             </div>""", unsafe_allow_html=True)
-
-    # the header
     st.markdown('<h1 style="text-align:center; position:relative; top:40%;">AdventureWorks Sales</h1>', unsafe_allow_html=True)
 
-
-# In[ ]:
-
-
-# The Rows
 with topRow:
 
     
@@ -214,18 +189,9 @@ with midRow:
 
 
 with chartRow:
-    # Filter for the month
-    #df1['Order_date'] = pd.to_datetime(superSales['Order_date'])
-    #mar_data = (superSales['Order_date'].dt.month == 3)
-    #lineQuantity = chosen_line[(mar_data)]
 
-    # Quantity for each day
-    #quantity_per_day = lineQuantity.groupby('Order_date')['Quantity'].sum().reset_index()
-
-    # some space
     st.markdown('<div></div>', unsafe_allow_html=True)
     
-    # Create a line chart for Quantity over the last month using Plotly
     fig_linechart = go.Figure()
   
     fig_linechart.add_trace(go.Scatter(x=sorted(chosen_line['SalesMonthYear'].unique()), y=chosen_line.groupby('SalesMonthYear')['SubTotal'].sum()
@@ -249,9 +215,7 @@ with confidenceintervalRow:
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
-    # Create horizontal bar chart
     fig = go.Figure()
-
 
     fig.add_trace(go.Bar(
         name= 'B2B Sales', 
@@ -261,9 +225,6 @@ with confidenceintervalRow:
     width=0.5
     ))
 
-
-
-    # Update layout
     fig.update_layout(
         title="B2B - Gross margin % with 95% confidence intervals per invoice",
         xaxis_title='',
@@ -271,18 +232,15 @@ with confidenceintervalRow:
         
     )
 
-    # Show the plot
     st.plotly_chart(fig)
 
     st.markdown(
         """
         <div class="description-box">
-        <p>In the box to the left there is a box And i am writing
-        A lot of things in this box
-        i hope
-        everything fits and 
-        this is how
-        line breaks are made
+        <p>The graph above is a visualisation of the confidence interval regarding B2B sales. Consider that this is the mean margin per invoice/sales order and how that is not aligning with our KPI for our wholesale business.
+        This needs to be examined further and some initial thoughts regarding this that larger orders at even lower GM% are considerably driving this KPI down. 
+        The salesforce of AdventureWorks seems to be incentivized through hitting sales targets for their monthly bonuses and then also a commission in the range of 1-2%, both of these incentives seem to be based on the Sub Total per invoice.
+        If this is true our operating margin for our wholesale business (which is roughly 73% of our total turnover) has a very possible risk of operating at a loss. This is not including any overhead costs either, just the incentives given to the salesforce.
         </p>
         </div>
          """, unsafe_allow_html=True
@@ -309,7 +267,6 @@ with footer:
         )    
 
 
-# In[ ]:
 
 
 
