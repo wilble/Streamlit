@@ -237,10 +237,11 @@ with confidenceintervalRow:
     st.markdown(
         """
         <div class="description-box">
-        <p>The graph above is a visualisation of the confidence interval regarding B2B sales. Consider that this is the mean margin per invoice/sales order and how that is not aligning with our KPI for our wholesale business.
-        This needs to be examined further and some initial thoughts regarding this that larger orders at even lower GM% are considerably driving this KPI down. 
-        The salesforce of AdventureWorks seems to be incentivized through hitting sales targets for their monthly bonuses and then also a commission in the range of 1-2%, both of these incentives seem to be based on the Sub Total per invoice.
-        If this is true our operating margin for our wholesale business (which is roughly 73% of our total turnover) has a very possible risk of operating at a loss. This is not including any overhead costs either, just the incentives given to the salesforce.
+        <p>The graph above is a visualisation of the confidence interval regarding B2B sales.<br> Consider that this is the mean margin per invoice/sales order and how that is not aligning with the KPI for our wholesale business,
+        this needs to be examined further.<br> Some initial thoughts regarding this is that larger orders at even lower GM% (Deadstock? Volume discounts?) are considerably driving the KPI down.<br> 
+        The salesforce of AdventureWorks seem to be incentivized through hitting sales targets for their monthly bonuses and then also a commission in the range of 1-2%. Both of these incentives seem to be based on the Sub Total per invoice.<br>
+        If this is true our operating margin for our wholesale business (which is roughly 73% of our total turnover) has a very possible risk of operating at a loss. This is not including any overhead costs, just the incentives given to the salesforce and the GM%. 
+        Considering that this part of the business seem to be quite cash demanding with customers ordering from a stocked warehouse it greatly limits our financial maneuverability as well.
         </p>
         </div>
          """, unsafe_allow_html=True
