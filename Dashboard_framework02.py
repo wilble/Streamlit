@@ -73,18 +73,14 @@ st.markdown(
         font-size: 24px;
         font-family: serif;
     }
-    .bar-chart-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 50%;
-    }  
     .description-box {
         width: 100%;
         background-color: #9370DB;
         padding: 10px;
         border-radius: 5px;
+        color: #ddd;
+        font-size: 24px;
+        font-family: serif;
     }  
     </style>
     """,
@@ -281,7 +277,13 @@ with confidenceintervalRow:
     st.markdown(
         """
         <div class="description-box">
-        <p>In the box to the left there is a box</p>
+        <p>In the box to the left there is a box And i am writing
+        A lot of things in this box
+        i hope
+        everything fits and 
+        this is how
+        line breaks are made
+        </p>
         </div>
          """, unsafe_allow_html=True
         )
