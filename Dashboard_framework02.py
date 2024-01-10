@@ -245,33 +245,52 @@ with confidenceintervalRow:
 
     df1['Proportion'] = df1['Margin'] / df1['SubTotal'] * 100
 
-    # Create traces for each category
-    traces = []
-    for category, data in df1.groupby('OnlineOrderFlag'):
-        # Calculate confidence interval for the mean
-        mean = data['Proportion'].mean()
-        std_error = data['Proportion'].std() / (data['Proportion'].count() ** 0.5)
-        
-        # Calculate confidence interval bounds
-        confidence_interval = stats.t.interval(0.95, len(data['Proportion']) - 1, loc=mean, scale=std_error)
+    # Calculate confidence interval for all sales
+    all_sales_mean = df1['Proportion'].mean()
+    all_sales_std_error = df1['Proportion'].std() / (df1['Proportion'].count() ** 0.5)
+    all_sales_confidence_interval = stats.t.interval(0.95, len(df1['Proportion']) - 1, loc=all_sales_mean, scale=all_sales_std_error)
 
-        trace = go.Bar(
-            x=[category],
-            y=[mean],
-            error_y=dict(type='data', array=[[mean - confidence_interval[0], confidence_interval[1] - mean]]),
-            name=category
-        )
-        traces.append(trace)
+    # Calculate confidence interval for online sales
+    online_sales_mean = df1[df1['OnlineOrderFlag'] == True]['Proportion'].mean()
+    online_sales_std_error = df1[df1['OnlineOrderFlag'] == True]['Proportion'].std() / (df1[df1['OnlineOrderFlag'] == True]['Proportion'].count() ** 0.5)
+    online_sales_confidence_interval = stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == True]['Proportion']) - 1, loc=online_sales_mean, scale=online_sales_std_error)
 
-    # Create layout
-    layout = go.Layout(
+    # Calculate confidence interval for not online sales
+    not_online_sales_mean = df1[df1['OnlineOrderFlag'] == False]['Proportion'].mean()
+    not_online_sales_std_error = df1[df1['OnlineOrderFlag'] == False]['Proportion'].std() / (df1[df1['OnlineOrderFlag'] == False]['Proportion'].count() ** 0.5)
+    not_online_sales_confidence_interval = stats.t.interval(0.95, len(df1[df1['OnlineOrderFlag'] == False]['Proportion']) - 1, loc=not_online_sales_mean, scale=not_online_sales_std_error)
+
+    # Create horizontal bar chart
+    fig = go.Figure()
+
+    # All sales
+    fig.add_trace(go.Bar(
+        y=['All Sales'],
+        x=[all_sales_mean],
+        error_x=dict(type='data', array=[[all_sales_mean - all_sales_confidence_interval[0], all_sales_confidence_interval[1] - all_sales_mean]])
+    ))
+
+    # Online sales
+    fig.add_trace(go.Bar(
+        y=['Online Sales'],
+        x=[online_sales_mean],
+        error_x=dict(type='data', array=[[online_sales_mean - online_sales_confidence_interval[0], online_sales_confidence_interval[1] - online_sales_mean]])
+    ))
+
+    # Not online sales
+    fig.add_trace(go.Bar(
+        y=['Not Online Sales'],
+        x=[not_online_sales_mean],
+        error_x=dict(type='data', array=[[not_online_sales_mean - not_online_sales_confidence_interval[0], not_online_sales_confidence_interval[1] - not_online_sales_mean]])
+    ))
+
+    # Update layout
+    fig.update_layout(
         title="Proportions with Confidence Intervals",
-        xaxis=dict(title='Online Order Flag'),
-        yaxis=dict(title='Proportion (%)')
+        xaxis_title='Proportion (%)',
+        yaxis_title='Sales Category',
+        barmode='stack'
     )
-
-    # Create figure
-    fig = go.Figure(data=traces, layout=layout)
 
     # Show the plot
     st.plotly_chart(fig)
